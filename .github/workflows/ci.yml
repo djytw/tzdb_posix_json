@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Env
+        run: sudo apt-get install wget lzip tar gcc make
+
+      - name: build
+        run: bash build.sh
+
+      - name: Commit if updated
+        run: |
+          git config --global user.name 'CI'
+          git config --global user.email 'djytw@users.noreply.github.com'
+          if ! git diff --exit-code > /dev/null 2>&1 ; then git commit -am "Update to tzdb version `cat version`"; git push; fi
