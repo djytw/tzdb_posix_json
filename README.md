@@ -2,5 +2,5 @@
 
 Converts official [iana tzdb](https://www.iana.org/time-zones) to POSIX tz strings and output JSON file
 
-Current version `2026c`
+Current version `2026d`
 
